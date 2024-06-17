@@ -2,19 +2,23 @@ from github import Github, Auth
 from datetime import datetime,timedelta
 from prettytable import PrettyTable as pt
 
-auth = Auth.Token("")
+token = open(input("Enter the name of the file with your git access token: "))
+auth = Auth.Token(token.read())
+token.close()
 
 today = datetime.today()
-days = 7
+days = int(input("Number of days you want the report to cover: "))
 initial_date = today - timedelta(days)
 
-# First create a Github instance:
-repositories = ["coollabsio/coolify"]
+repositories_file = open("repositories.txt", encoding="utf8")
+repositories = [line.strip("\n") for line in repositories_file.readlines()]
+print(repositories)
 g = Github(auth=auth)
 
 for repo_name in repositories:
     repo = g.get_repo(repo_name)
     print("Report for repository:", repo.name)
+    print("Owner:", repo.owner.login)
     print("Description:", repo.description)
     print("From:", initial_date.date().strftime("%A %d. %B %Y"), "to", today.date().strftime("%A %d. %B %Y"))
 
