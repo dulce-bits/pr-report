@@ -1,20 +1,32 @@
 from github import Github, Auth
 from datetime import datetime,timedelta
 from prettytable import PrettyTable as pt
+import sys
 
-token = open(input("Enter the name of the file with your git access token: "))
+#Get github access token to authenticate
+token = open("git_token.txt")
 auth = Auth.Token(token.read())
 token.close()
 
+#get today's date and the inital date on the report
 today = datetime.today()
-days = int(input("Number of days you want the report to cover: "))
+#the number of days is passed as an argument when executing the script
+days = int(sys.argv[1])
 initial_date = today - timedelta(days)
 
+#Get the list of the repositories that will be part of the report
 repositories_file = open("repositories.txt", encoding="utf8")
 repositories = [line.strip("\n") for line in repositories_file.readlines()]
-print(repositories)
+
 g = Github(auth=auth)
 
+email_list_file = open("email_list.txt",encoding="utf8")
+email_list = [line.strip("\n") for line in email_list_file.readlines()]
+
+print("From: github-reports@sailpoint.com")
+print("Subject: Pull requests reports from", initial_date.date().strftime("%A %d. %B %Y"), "to", today.date().strftime("%A %d. %B %Y"))
+print("To:", *email_list)
+#Iterate through each repository and print the PR summary
 for repo_name in repositories:
     repo = g.get_repo(repo_name)
     print("Report for repository:", repo.name)
