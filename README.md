@@ -16,7 +16,7 @@ Once all of this is set you can then proceed to build the docker image and run t
 
 ```
 docker build -t pr-report-demo .
-docker run -it pr-report-demo
+docker run pr-report-demo
 ```
 
 ### Script invocation
