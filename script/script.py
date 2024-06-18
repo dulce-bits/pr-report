@@ -4,9 +4,8 @@ from prettytable import PrettyTable as pt
 import sys
 
 #Get github access token to authenticate
-token = open("git_token.txt")
-auth = Auth.Token(token.read())
-token.close()
+token = open("git_token.txt").red().strip()
+auth = Auth.Token(token)
 
 #get today's date and the inital date on the report
 today = datetime.today()
