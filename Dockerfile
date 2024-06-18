@@ -5,4 +5,4 @@ WORKDIR /script
 RUN pwd && \
     # List files in the current directory
     ls -al
-CMD ["python", "your_script.py", "7"]
+CMD ["python", "script.py", "7"]
